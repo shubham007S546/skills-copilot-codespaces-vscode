@@ -10,14 +10,17 @@
   <header class="header">
     <h1>Smart Agri AI</h1>
     <nav>
-      <a href="/">Disease Detection</a>
+      <a href="/">Home</a>
+      <a href="/predict">Predict</a>
       <a href="/cost-estimator">Cost Estimator</a>
+      <a href="/about">About</a>
+      <a href="/admin">Admin</a>
     </nav>
   </header>
 
   <main class="container">
-    <section class="card">
-      <h2>Crop Cost Estimator (Himachal-style)</h2>
+    <section class="card hero">
+      <h2>Crop Cost + Production Economics</h2>
       <form id="costForm" class="grid">
         <input name="crop_name" placeholder="crop name (tomato)" value="tomato" />
         <input name="land_area_acre" type="number" step="0.1" value="1.0" placeholder="land area acre" />
@@ -37,6 +40,12 @@
         <input name="tractor_cost_inr" type="number" value="8000" placeholder="tractor" />
         <input name="transport_to_market_inr" type="number" value="5500" placeholder="transport" />
         <input name="misc_cost_inr" type="number" value="5000" placeholder="misc" />
+        <input name="soil_quality_index" type="number" step="0.1" value="6.0" placeholder="soil quality (0-10)" />
+        <input name="irrigation_quality_index" type="number" step="0.1" value="6.0" placeholder="irrigation quality (0-10)" />
+        <input name="expected_rainfall_mm" type="number" step="1" value="700" placeholder="expected rainfall (mm)" />
+        <input name="pest_pressure_index" type="number" step="0.1" value="4.0" placeholder="pest pressure (0-10)" />
+        <input name="expected_yield_quintal" type="number" step="0.1" value="120" placeholder="expected yield (quintal)" />
+        <input name="expected_market_price_inr_per_quintal" type="number" step="1" value="1800" placeholder="market price per quintal" />
         <button type="submit">Estimate Total Cost</button>
       </form>
     </section>
@@ -45,6 +54,8 @@
       <h3>Estimated Budget</h3>
       <p><strong>Predicted Total:</strong> INR <span id="predCost"></span></p>
       <p><strong>Expected Range:</strong> INR <span id="minCost"></span> - INR <span id="maxCost"></span></p>
+      <p><strong>Projected Revenue:</strong> INR <span id="revCost"></span></p>
+      <p><strong>Projected Profit:</strong> INR <span id="profitCost"></span></p>
       <pre id="breakdown"></pre>
     </section>
   </main>

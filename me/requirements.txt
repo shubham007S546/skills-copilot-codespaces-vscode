@@ -4,12 +4,12 @@ python-multipart
 pydantic
 pydantic-settings
 jinja2
-numpy
+numpy<2
 pandas
 scikit-learn
 joblib
 pillow
 opencv-python
-tensorflow
+tensorflow==2.16.1
 kagglehub
 reportlab

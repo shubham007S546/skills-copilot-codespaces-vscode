@@ -34,6 +34,7 @@ form?.addEventListener("submit", async (e) => {
   result.classList.remove("hidden");
 
   document.getElementById("diseaseName").textContent = out.disease_name;
+  document.getElementById("causeText").textContent = out.probable_cause;
   document.getElementById("confidence").textContent = (out.confidence * 100).toFixed(2) + "%";
   document.getElementById("confidenceCal").textContent =
     (out.confidence_calibrated * 100).toFixed(2) + "%";
@@ -41,10 +42,12 @@ form?.addEventListener("submit", async (e) => {
     out.recommendation
   );
   document.getElementById("pesticide").textContent = out.pesticide;
+  document.getElementById("insecticide").textContent = out.insecticide;
   document.getElementById("dosage").textContent = out.dosage;
   document.getElementById("interval").textContent = out.spray_interval_days;
   document.getElementById("recovery").textContent = out.estimated_recovery_days;
   document.getElementById("price").textContent = out.approx_pesticide_cost_inr;
+  document.getElementById("insPrice").textContent = out.approx_insecticide_cost_inr;
   const xai = document.getElementById("xaiImage");
   if (out.xai_image_base64) {
     xai.src = `data:image/jpeg;base64,${out.xai_image_base64}`;

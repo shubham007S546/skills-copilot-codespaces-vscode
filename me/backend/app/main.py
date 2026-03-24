@@ -32,6 +32,11 @@ app.add_middleware(
 
 
 @app.get("/", response_class=HTMLResponse)
+def home(request: Request):
+    return templates.TemplateResponse("home.html", {"request": request})
+
+
+@app.get("/predict", response_class=HTMLResponse)
 def index(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
 
@@ -50,7 +55,7 @@ def admin_page(request: Request):
 
 @app.post("/admin/login")
 def admin_login(password: str = Form(...)):
-    expected = os.getenv("ADMIN_PASSWORD", "admin123")
+    expected = os.getenv("ADMIN_PASSWORD", "Shubham@26")
     if password != expected:
         raise HTTPException(status_code=401, detail="Invalid password")
     response = RedirectResponse(url="/admin", status_code=303)
@@ -74,15 +79,18 @@ async def classify_disease(file: UploadFile = File(...), xai_layer: str = Form(d
     advisory = get_recommendation(disease_name)
     return DiseasePrediction(
         disease_name=disease_name,
+        probable_cause=advisory["probable_cause"],
         confidence=confidence,
         confidence_calibrated=confidence_calibrated,
         top_k=top_k,
         recommendation=advisory["recommendation"],
         pesticide=advisory["pesticide"],
+        insecticide=advisory["insecticide"],
         dosage=advisory["dosage"],
         spray_interval_days=advisory["spray_interval_days"],
         estimated_recovery_days=advisory["estimated_recovery_days"],
         approx_pesticide_cost_inr=advisory["approx_pesticide_cost_inr"],
+        approx_insecticide_cost_inr=advisory["approx_insecticide_cost_inr"],
         xai_image_base64=xai_img or None,
     )
 
@@ -127,6 +135,9 @@ async def prediction_pdf(file: UploadFile = File(...), xai_layer: str = Form(def
 def estimate_crop_cost(payload: CostEstimatorRequest):
     req = payload.model_dump()
     predicted = estimate_cost(req)
+    risk_factor = 1 + (req["pest_pressure_index"] * 0.02) + (max(0.0, 6.0 - req["soil_quality_index"]) * 0.015)
+    climate_factor = 1 + (max(0.0, 700 - req["expected_rainfall_mm"]) / 5000)
+    predicted = predicted * risk_factor * climate_factor
     breakdown = {
         "land": req["land_rent_inr"],
         "labor": req["labor_count"] * req["labor_daily_wage_inr"] * req["duration_months"] * 26,
@@ -140,11 +151,16 @@ def estimate_crop_cost(payload: CostEstimatorRequest):
         "tractor": req["tractor_cost_inr"],
         "transport": req["transport_to_market_inr"],
         "misc": req["misc_cost_inr"],
+        "risk_buffer": predicted * 0.06,
     }
+    projected_revenue = req["expected_yield_quintal"] * req["expected_market_price_inr_per_quintal"]
+    projected_profit = projected_revenue - predicted
     return CostEstimatorResponse(
         predicted_total_cost_inr=round(predicted, 2),
         min_expected_cost_inr=round(predicted * 0.9, 2),
         max_expected_cost_inr=round(predicted * 1.15, 2),
+        projected_revenue_inr=round(projected_revenue, 2),
+        projected_profit_inr=round(projected_profit, 2),
         breakdown={k: round(v, 2) for k, v in breakdown.items()},
     )
 
@@ -152,3 +168,8 @@ def estimate_crop_cost(payload: CostEstimatorRequest):
 @app.get("/health")
 def health():
     return {"status": "ok"}
+
+
+@app.get("/about", response_class=HTMLResponse)
+def about(request: Request):
+    return templates.TemplateResponse("about.html", {"request": request})

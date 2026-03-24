@@ -28,6 +28,14 @@ costForm?.addEventListener("submit", async (e) => {
     tractor_cost_inr: parseNumber(formData.get("tractor_cost_inr")),
     transport_to_market_inr: parseNumber(formData.get("transport_to_market_inr")),
     misc_cost_inr: parseNumber(formData.get("misc_cost_inr")),
+    soil_quality_index: parseNumber(formData.get("soil_quality_index")),
+    irrigation_quality_index: parseNumber(formData.get("irrigation_quality_index")),
+    expected_rainfall_mm: parseNumber(formData.get("expected_rainfall_mm")),
+    pest_pressure_index: parseNumber(formData.get("pest_pressure_index")),
+    expected_yield_quintal: parseNumber(formData.get("expected_yield_quintal")),
+    expected_market_price_inr_per_quintal: parseNumber(
+      formData.get("expected_market_price_inr_per_quintal")
+    ),
   };
 
   const res = await fetch("/api/estimate-cost", {
@@ -40,5 +48,7 @@ costForm?.addEventListener("submit", async (e) => {
   document.getElementById("predCost").textContent = out.predicted_total_cost_inr;
   document.getElementById("minCost").textContent = out.min_expected_cost_inr;
   document.getElementById("maxCost").textContent = out.max_expected_cost_inr;
+  document.getElementById("revCost").textContent = out.projected_revenue_inr;
+  document.getElementById("profitCost").textContent = out.projected_profit_inr;
   document.getElementById("breakdown").textContent = JSON.stringify(out.breakdown, null, 2);
 });
