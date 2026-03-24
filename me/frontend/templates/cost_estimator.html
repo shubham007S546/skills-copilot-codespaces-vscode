@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Smart Agri AI - Cost Estimator</title>
+  <link rel="stylesheet" href="/static/styles.css" />
+</head>
+<body>
+  <header class="header">
+    <h1>Smart Agri AI</h1>
+    <nav>
+      <a href="/">Disease Detection</a>
+      <a href="/cost-estimator">Cost Estimator</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <section class="card">
+      <h2>Crop Cost Estimator (Himachal-style)</h2>
+      <form id="costForm" class="grid">
+        <input name="crop_name" placeholder="crop name (tomato)" value="tomato" />
+        <input name="land_area_acre" type="number" step="0.1" value="1.0" placeholder="land area acre" />
+        <select name="is_land_rented"><option value="true">rented</option><option value="false">owned</option></select>
+        <input name="land_rent_inr" type="number" value="30000" placeholder="land rent" />
+        <input name="duration_months" type="number" value="6" placeholder="duration months" />
+        <input name="labor_count" type="number" value="4" placeholder="labor count" />
+        <input name="labor_daily_wage_inr" type="number" value="700" placeholder="daily wage" />
+        <input name="self_work_hours_per_day" type="number" step="0.5" value="2" placeholder="self work hours/day" />
+        <input name="water_cycles" type="number" value="6" placeholder="water cycles" />
+        <input name="water_cost_per_cycle_inr" type="number" value="2500" placeholder="water per cycle" />
+        <input name="seed_cost_inr" type="number" value="7000" placeholder="seed" />
+        <input name="fertilizer_cost_inr" type="number" value="12000" placeholder="fertilizer" />
+        <input name="pesticide_cost_inr" type="number" value="9000" placeholder="pesticide" />
+        <input name="insecticide_cost_inr" type="number" value="6000" placeholder="insecticide" />
+        <input name="spray_cost_inr" type="number" value="5000" placeholder="spray cost" />
+        <input name="tractor_cost_inr" type="number" value="8000" placeholder="tractor" />
+        <input name="transport_to_market_inr" type="number" value="5500" placeholder="transport" />
+        <input name="misc_cost_inr" type="number" value="5000" placeholder="misc" />
+        <button type="submit">Estimate Total Cost</button>
+      </form>
+    </section>
+
+    <section id="costResult" class="card hidden">
+      <h3>Estimated Budget</h3>
+      <p><strong>Predicted Total:</strong> INR <span id="predCost"></span></p>
+      <p><strong>Expected Range:</strong> INR <span id="minCost"></span> - INR <span id="maxCost"></span></p>
+      <pre id="breakdown"></pre>
+    </section>
+  </main>
+
+  <script src="/static/cost.js"></script>
+</body>
+</html>

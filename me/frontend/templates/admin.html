@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin - Smart Agri AI</title>
+  <link rel="stylesheet" href="/static/styles.css" />
+</head>
+<body>
+  <header class="header">
+    <h1>Smart Agri AI - Admin</h1>
+    <nav>
+      <a href="/">Disease Detection</a>
+      <a href="/cost-estimator">Cost Estimator</a>
+    </nav>
+  </header>
+  <main class="container">
+    <section class="card">
+      {% if ok %}
+      <h2>Admin Session Active</h2>
+      <p>You can manage recommendation mappings from code file now (`recommendations.py`).</p>
+      <form method="post" action="/admin/logout">
+        <button type="submit">Logout</button>
+      </form>
+      {% else %}
+      <h2>Admin Login</h2>
+      <form method="post" action="/admin/login">
+        <input type="password" name="password" placeholder="Admin password" required />
+        <button type="submit">Login</button>
+      </form>
+      <p>Default password: <code>admin123</code> (change with `ADMIN_PASSWORD` env var)</p>
+      {% endif %}
+    </section>
+  </main>
+</body>
+</html>

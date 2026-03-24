@@ -1,0 +1,15 @@
+fastapi
+uvicorn[standard]
+python-multipart
+pydantic
+pydantic-settings
+jinja2
+numpy
+pandas
+scikit-learn
+joblib
+pillow
+opencv-python
+tensorflow
+kagglehub
+reportlab

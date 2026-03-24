@@ -1,0 +1,13 @@
+version: "3.9"
+services:
+  agri-smart:
+    build: .
+    container_name: agri-smart
+    ports:
+      - "8000:8000"
+    environment:
+      - ADMIN_PASSWORD=admin123
+      - CONFIDENCE_TEMPERATURE=1.3
+    volumes:
+      - ./models:/app/models
+      - ./data:/app/data

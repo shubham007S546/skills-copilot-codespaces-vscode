@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Smart Agri AI - Disease Detection</title>
+  <link rel="stylesheet" href="/static/styles.css" />
+</head>
+<body>
+  <header class="header">
+    <h1>Smart Agri AI</h1>
+    <nav>
+      <a href="/">Disease Detection</a>
+      <a href="/cost-estimator">Cost Estimator</a>
+      <a href="/admin">Admin</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <section class="card">
+      <h2>Leaf Disease Classifier</h2>
+      <p>Upload a leaf image to detect disease, treatment, recovery time, and approximate pesticide price.</p>
+      <form id="predictForm">
+        <input id="imageInput" type="file" accept="image/*" required />
+        <input id="xaiLayer" type="text" placeholder="XAI layer name (optional)" />
+        <button type="submit">Analyze</button>
+        <button id="pdfBtn" type="button">Download PDF Report</button>
+        <button id="langToggle" type="button">हिंदी / English</button>
+      </form>
+      <div id="loader" class="hidden">Analyzing image...</div>
+    </section>
+
+    <section id="result" class="card hidden">
+      <h3>Prediction Result</h3>
+      <p><strong>Disease:</strong> <span id="diseaseName"></span></p>
+      <p><strong>Confidence:</strong> <span id="confidence"></span></p>
+      <p><strong>Calibrated Confidence:</strong> <span id="confidenceCal"></span></p>
+      <p><strong>Recommendation:</strong> <span id="recommendation"></span></p>
+      <p><strong>Pesticide:</strong> <span id="pesticide"></span></p>
+      <p><strong>Dosage:</strong> <span id="dosage"></span></p>
+      <p><strong>Spray Interval:</strong> <span id="interval"></span> days</p>
+      <p><strong>Recovery Time:</strong> <span id="recovery"></span> days</p>
+      <p><strong>Approx Price:</strong> INR <span id="price"></span></p>
+      <h4>XAI Heatmap</h4>
+      <img id="xaiImage" alt="XAI Heatmap" class="xai" />
+    </section>
+  </main>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
